@@ -8,26 +8,8 @@ pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 1000, 1000
 
 # Colors
-WHITE       = (255, 255, 255)
-BLACK       = (0, 0, 0)
-RED         = (255, 0, 0)
-BLUE        = (0, 0, 255)
-GREEN       = (0, 255, 0)
-YELLOW      = (255, 255, 0)
-CYAN        = (0, 255, 255)  
-MAGENTA     = (255, 0, 255)
-GRAY        = (128, 128, 128)  
-DARK_GRAY   = (64, 64, 64)
-LIGHT_GRAY  = (192, 192, 192)
-ORANGE      = (255, 165, 0)
-PURPLE      = (128, 0, 128)
-BROWN       = (165, 42, 42)
-PINK        = (255, 192, 203)
-LIME        = (50, 205, 50)
-GOLD        = (255, 215, 0)
-NAVY        = (0, 0, 128)
-TEAL        = (0, 128, 128)
-MAROON      = (128, 0, 0)
+PINK = (255, 192, 203)
+BLACK = (0, 0, 0)
 
 # Load the dinosaur image
 dinosaur_img = pygame.image.load("dinosaur.png")
@@ -35,8 +17,10 @@ dinosaur_img = pygame.image.load("dinosaur.png")
 # Load the meteorite image
 meteorite_img = pygame.image.load("meteorite.png")  
 
-# Load the bullet image
-bullet_img = pygame.image.load("heart_bullets.png")
+# Load the bullet image and scale it to desired size
+bullet_img_original = pygame.image.load("heart_bullets.png")
+bullet_width, bullet_height = 20, 40  # Set dimensions for the bullet
+bullet_img = pygame.transform.scale(bullet_img_original, (bullet_width, bullet_height))
 
 # Initialize screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -56,7 +40,6 @@ meteorite_speed = 5
 meteorites = []  # List of falling meteorites
 
 # Bullet settings
-bullet_width, bullet_height = 5, 10
 bullet_speed = 10
 bullets = []  # List of bullets
 
@@ -69,7 +52,7 @@ font = pygame.font.SysFont("Arial", 30)
 # Main game loop
 running = True
 while running:
-    screen.fill(PINK)  # Clear screen with cyan background
+    screen.fill(PINK)  # Clear screen with pink background
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -136,10 +119,9 @@ while running:
         meteorite_img_scaled = pygame.transform.scale(meteorite_img, (meteorite_width, meteorite_height))
         screen.blit(meteorite_img_scaled, (meteorite.x, meteorite.y))
 
-    # Draw bullets
+    # Draw bullets (as images)
     for bullet in bullets:
-        bullet_img_scaled = pygame.transform.scale(bullet_img, (bullet_width, bullet_height))
-        screen.blit(bullet_img_scaled, (bullet.x, bullet.y))
+        screen.blit(bullet_img, (bullet.x, bullet.y))
 
     # Draw score
     score_text = font.render(f"Score: {score}", True, BLACK)
